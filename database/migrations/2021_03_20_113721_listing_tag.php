@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeamsTable extends Migration
+class ListingTag extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,18 @@ class CreateTeamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('listing_tag', function (Blueprint $table) {
+
             $table->id();
-            $table->foreignId('user_id')->index();
-            $table->string('name');
-            $table->string('logo')->nullable();
-            $table->boolean('personal_team');
+
+            $table->unsignedBigInteger('listing_id');
+            $table->unsignedBigInteger('tag_id');
+            
+            $table->foreign('listing_id')->references('id')->on('listings');
+            $table->foreign('tag_id')->references('id')->on('tags');
+
             $table->timestamps();
+
         });
     }
 
@@ -30,6 +35,6 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('listing_tag');
     }
 }
